@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import requests
 import datetime
-import json
+import ipinfo
 
 # Create your views here.
 def index(request):
@@ -9,10 +9,14 @@ def index(request):
     if 'city' in request.POST:
         city = request.POST['city']
     else:
-        response = requests.get('http://ipinfo.io/json')
-        data = json.loads(response.text)
+        # response = requests.get('http://ipinfo.io/json')
+        # data = json.loads(response.text)
+        access_token = '62850ee40de8c6' #collected from -> https://ipinfo.io/
+
+        handler = ipinfo.getHandler(access_token)
+        data = handler.getDetails()
         
-        city = data['city']
+        city = data.city
 
     appid = '614292ec1c4f55c22a7de859d174f10c'
     URL = 'https://api.openweathermap.org/data/2.5/weather'
